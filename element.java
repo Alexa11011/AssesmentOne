@@ -22,26 +22,26 @@ public class element {
 
         int atomic_weight = 1;
         String element;
-        int needed_column; 
+        int needed_column; //column number for each element in the array
         int current_column = 1;
         final String DUMMY_ELEMENT = "";
         final int COLUMNS = 18;
 
         for (String[] elm: TABLE ){
             
-            needed_column = Integer.parseInt(elm[1]);
-            current_column %= COLUMNS;
+            needed_column = Integer.parseInt(elm[1]);  //the array element at index 1 is a string, so convert to integer by parsing
+            current_column %= COLUMNS;  //Alexa may discard
 
-            while ((needed_column > current_column) & (current_column != COLUMNS)) {
-                System.out.printf("%8s", DUMMY_ELEMENT);
+            while ((needed_column > current_column) & (current_column != COLUMNS)) { //handling gaps the periodic table
+                System.out.printf("%8s", DUMMY_ELEMENT); //% is escape, 8 characters, looking for string s, put in a dummy element which is an empty string; printf allows formatting
                 current_column++;
             }
 
-            element = atomic_weight + " " + elm[0] + " ";
+            element = atomic_weight + " " + elm[0] + " ";  //formatting for the element inside the cell
         
-            System.out.printf("%8s", element);
+            System.out.printf("%8s", element);  //printing the element; ensuring 8 wide inside each cell
             
-            if (current_column % COLUMNS == 0){
+            if (current_column % COLUMNS == 0){  //if at the end, new line
                 System.out.println();
                 current_column++;
             }
