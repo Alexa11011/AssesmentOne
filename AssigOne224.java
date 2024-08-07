@@ -21,15 +21,20 @@ public class AssigOne224
      */
     public static void main(String args[])
     {
-        PeriodicTable p;
+        // PeriodicTable p;
     
-        // create PeriodicTable object
-        p=new PeriodicTable();
+        // // create PeriodicTable object
+        // p=new PeriodicTable();
         
         System.out.println("\t\t\t\t\t\t\t\t Periodic Table");
         System.out.println("\t\t\t\t\t\t\t\t ==============");
-        // show (portion of) periodic table
-        p.printTables();
-        p.printGroups();
+        // // show (portion of) periodic table
+        // p.printTables();
+        // p.printGroups();
+
+        element e = new element();
+
+        element.display();
+
     }
 }
