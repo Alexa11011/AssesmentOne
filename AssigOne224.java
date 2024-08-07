@@ -35,6 +35,7 @@ public class AssigOne224
         element e = new element();
 
         element.display();
+        e.seperate_blocks();
 
     }
 }
