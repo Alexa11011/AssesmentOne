@@ -14,7 +14,7 @@ public class element {
     {"Np","-35"},{"Pu","-36"},{"Am","-37"},{"Cm","-38"},{"Bk","-39"},{"Cf","-40"},{"Es","-41"},{"Fm","-42"},{"Md","-43"},
     {"No","-44"},{"Lr","-45"},{"Rf","4"},{"Db","5"},{"Sg","6"},{"Bh","7"},{"Hs","8"},{"Mt","9"},{"Ds","10"},{"Rg","11"},
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
-
+//test
 
     // width of elements is 7, there are 18 coloms and 9 rows
     // that means the table will be 7 x 18 = 126 spaces long, with a space between each making it 7 x 18 + 16 = 142 wide, or 158 with double spacing between elements 
