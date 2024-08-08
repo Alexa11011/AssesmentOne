@@ -15,62 +15,69 @@ public class element {
     {"No","-44"},{"Lr","-45"},{"Rf","4"},{"Db","5"},{"Sg","6"},{"Bh","7"},{"Hs","8"},{"Mt","9"},{"Ds","10"},{"Rg","11"},
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
 
-    private String[][] main_body = new String[86][2]; //Store Elements from TABLE with postitive column numbers
-    private String[][] f_block = new String[30][2]; //Store elements from TABLE with negitive column numbers
+    //This whole block is useless as the index of elements is meaningful, changing indexes messes everything up ;-;
+    // private String[][] main_body = new String[86][2]; //Store Elements from TABLE with postitive column numbers
+    private String[] f_block = new String[30]; //Store elements from TABLE with negitive column numbers
     
-    public void seperate_blocks(){ // this way of doing it breaks the attomic number tracking ARGGG!!! how annoying, >:C
-        //Method for seperating the elements in TABLE with negitive numbers and postitive numbers
-        // seems to work as intended
-        int f_block_index = 0; //These keep track of where to put the numbers
-        int main_body_index = 0;
+    // public void seperate_blocks(){ // this way of doing it breaks the attomic number tracking ARGGG!!! how annoying, >:C
+    //     //Method for seperating the elements in TABLE with negitive numbers and postitive numbers
+    //     // seems to work as intended
+    //     int f_block_index = 0; //These keep track of where to put the numbers
+    //     int main_body_index = 0;
 
-        for (String[] element: TABLE){ 
+    //     for (String[] element: TABLE){ 
 
-            if (Integer.parseInt(element[1]) <= 0){
-                f_block[f_block_index] = element;
-                f_block_index++;
-            }  
+    //         if (Integer.parseInt(element[1]) <= 0){
+    //             f_block[f_block_index] = element;
+    //             f_block_index++;
+    //         }  
 
-            else{
-                main_body[main_body_index] = element;
-                main_body_index++;
-            }
-        }
-    }
+    //         else{
+    //             main_body[main_body_index] = element;
+    //             main_body_index++;
+    //         }
+    //     }
+    // }
 
     // width of elements is 7, there are 18 coloms and 9 rows
     // that means the table will be 7 x 18 = 126 spaces long, with a space between each making it 7 x 18 + 16 = 142 wide, or 158 with double spacing between elements 
     public void display(){
 
-        int atomic_weight = 1;
-        String element;
+        int atomic_number = 1;
+        String formatted_element; 
         int needed_column; //column number for each element in the array
         int current_column = 1;
         final String DUMMY_ELEMENT = "";
-        final int COLUMNS = 18;
+        int f_block_index = 0;
 
-        for (String[] elm: main_body ){
-            
-            needed_column = Integer.parseInt(elm[1]);  //the array element at index 1 is a string, so convert to integer by parsing
+        for (String[] unformatted_element: TABLE ){
+
+            needed_column = Integer.parseInt(unformatted_element[1]);  //the array element at index 1 is a string, so convert to integer by parsing
             //current_column %= COLUMNS;  //Alexa may discard
 
-            while ((needed_column > current_column) & (current_column != COLUMNS)) { //handling gaps in the periodic table
+            if ((needed_column < current_column) & (needed_column > 0)){  //if current column is over the needed column, go to the next line, unless needed column is neg
+                System.out.println();
+                current_column = 1; //when going to next line reset current colom to 1
+            }
+
+            while ((needed_column > current_column) & (needed_column > 0)) { //handling gaps in the periodic table, prints dummy elements if a gap is needed
                 System.out.printf("%8s", DUMMY_ELEMENT); //% is escape, 8 characters, looking for string s, put in a dummy element which is an empty string; printf allows formatting
                 current_column++;
             }
 
-            element = atomic_weight + " " + elm[0] + " ";  //formatting for the element inside the cell
+            formatted_element = atomic_number + " " + unformatted_element[0] + " ";  //formatting for the element inside the cell
         
-            System.out.printf("%8s", element);  //printing the element; ensuring 8 wide inside each cell
-            current_column++;
-
-            if (current_column >= COLUMNS){  //if current colom is at or past the max number of coloms go to the next line
-                System.out.println();
-                current_column = 1; //when going to next line reset current colom to 1
+            if (needed_column <= 0){ //If element is in the fblock, dont print and just store it for later
+                f_block[f_block_index] = formatted_element;
+                f_block_index++;
             }
-            atomic_weight++;
+
+            else{
+                System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
+                current_column++;
+            }
+            
+            atomic_number++;
         }
     }
-
-
 }
