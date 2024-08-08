@@ -34,7 +34,8 @@ public class AssigOne224
 
         element e = new element();
 
-        e.display();
+        e.displayMainBlock();
+        e.displayFBlock();
 
     }
 }

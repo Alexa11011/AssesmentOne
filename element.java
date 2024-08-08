@@ -15,6 +15,7 @@ public class element {
     {"No","-44"},{"Lr","-45"},{"Rf","4"},{"Db","5"},{"Sg","6"},{"Bh","7"},{"Hs","8"},{"Mt","9"},{"Ds","10"},{"Rg","11"},
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
 
+    final String DUMMY_ELEMENT = "";
     //This whole block is useless as the index of elements is meaningful, changing indexes messes everything up ;-;
     // private String[][] main_body = new String[86][2]; //Store Elements from TABLE with postitive column numbers
     private String[] f_block = new String[30]; //Store elements from TABLE with negitive column numbers
@@ -41,13 +42,14 @@ public class element {
 
     // width of elements is 7, there are 18 coloms and 9 rows
     // that means the table will be 7 x 18 = 126 spaces long, with a space between each making it 7 x 18 + 16 = 142 wide, or 158 with double spacing between elements 
-    public void display(){
+
+    public void displayMainBlock(){ //I dont like that this "display" method is also in charge of loading the fblock
 
         int atomic_number = 1;
         String formatted_element; 
         int needed_column; //column number for each element in the array
         int current_column = 1;
-        final String DUMMY_ELEMENT = "";
+        
         int f_block_index = 0;
 
         for (String[] unformatted_element: TABLE ){
@@ -72,12 +74,38 @@ public class element {
                 f_block_index++;
             }
 
-            else{
+            else{ //could use else is and a passed digit to start at to make it print from a specific element
                 System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
                 current_column++;
             }
             
             atomic_number++;
+        }
+    }
+
+    public void displayFBlock(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
+
+        int current_column = 1;
+        final int MIN_COLUMNS = 3;
+        final int MAX_COLUMNS = 17;
+
+        System.out.println();
+        System.out.println();
+
+        for (String formatted_element: f_block){
+        
+            if (current_column > MAX_COLUMNS){ //print new line when at end of allowed space
+                System.err.println();
+                current_column = 1;
+            }
+        
+            while (current_column < MIN_COLUMNS){ //print dummy element when before print area
+                System.err.printf("%8s", DUMMY_ELEMENT);
+                current_column++;
+            }
+
+            System.out.printf("%8s", formatted_element);
+            current_column++;
         }
     }
 }
