@@ -17,31 +17,60 @@ public class element {
     //This whole block is useless as the index of elements is meaningful, changing indexes messes everything up ;-;
     // private String[][] main_body = new String[86][2]; //Store Elements from TABLE with postitive column numbers
     private String[][] f_block = new String[30][2]; //Store elements from TABLE with negitive column numbers
-    Boolean fblockdraw; //boolean weather to print f block or not
-    int[] bounds = new int[2]; //array for storing upper and lower bounds of elements to print
+    int fblockdraw = 1; //boolean weather to print f block or not
+    final int[] bounds = {0, 118} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
 
-    public element(){ // all interface stuff goes in here
-        user_lowerbounds = (question)
-        user_upperbounds = (question2)
+    public void test_code(){
+        final int lowerbounds = 0;
+        final int upperbounds = 118;
+        int[][] combos = new int[(upperbounds + 1) * (upperbounds + 1) * 2][3];
+        int index = 0;
 
-        user_fblock_result = (question3)
+        for (int i = 0; i <= upperbounds; i++){
 
-        if fblockdraw == "y"{
-            fblockdraw = true;
-        } 
+            for (int j = 0; j <= upperbounds; j++){
 
-        else{ 
-            fblockdraw = false;
+                for (int k = 0; k <= 1; k++){
+                    
+                    combos[index][0] = i;
+                    combos[index][1] = j;
+                    combos[index][2] = k; 
+
+                    index++;
+                }
+
+            }
         }
 
-        if (upperbounds <= 0){ //if 0 for upper bounds assume and print whole thing with assuming message
-            upperbounds = 118
+        for (int i = 0; i < combos.length; i++) {
+            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
         }
 
-        if (lowerbounds > upperbounds){
-            bad
-        }
     }
+
+
+    // public element(){ // all interface stuff goes in here
+    //     user_lowerbounds = (question)
+    //     user_upperbounds = (question2)
+
+    //     user_fblock_result = (question3)
+
+    //     if fblockdraw == "y"{
+    //         fblockdraw = true;
+    //     } 
+
+    //     else{ 
+    //         fblockdraw = false;
+    //     }
+
+    //     if (upperbounds <= 0){ //if 0 for upper bounds assume and print whole thing with assuming message
+    //         upperbounds = 118
+    //     }
+
+    //     if (lowerbounds > upperbounds){
+    //         bad
+    //     }
+    // }
 
     public void displayMainBlock(){ //I dont like that this "display" method is also in charge of loading the fblock
 
@@ -67,8 +96,9 @@ public class element {
             }
 
             if (needed_column <= 0){ //If element is in the fblock, dont print and just store it for later
-                f_block[f_block_index] = unformatted_element[0], atomic_number;
-                f_block_index++;
+                f_block[f_block_index][0] = unformatted_element[0];
+                f_block[f_block_index][1] = String.valueOf(atomic_number);
+                f_block_index++; 
             }
 
             else{ //could use elseif with bounds to print only whats needed
@@ -80,21 +110,22 @@ public class element {
             atomic_number++;
         }
 
-        if (fblockdraw == true){
+        if (fblockdraw == 1){
             displayFBlock();
         }
     }
 
     public void displayFBlock(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
 
-        int current_column = 1;
         final int STARTING_COLUMNS = 3; //column to start printing from
         final int ENDING_COLUMNS = 17; //column to stop printing at
+        int current_column = 1;
+        String formatted_element = "";
 
         System.out.println();
         System.out.println();
 
-        for (String formatted_element: f_block){
+        for (String[] unformatted_element: f_block){
         
             if (current_column > ENDING_COLUMNS){ //print new line when at end of allowed space
                 System.out.println();
@@ -105,9 +136,10 @@ public class element {
                 System.out.printf("%8s", DUMMY_ELEMENT);
                 current_column++;
             }
-            if (formatted_element[1] within bounds)
-            System.out.printf("%8s", formatted_element);
-            current_column++;
+            if (Integer.parseInt(unformatted_element[1]) >= bounds[0] || (Integer.parseInt(unformatted_element[1]) <= bounds[1]))
+                formatted_element = unformatted_element[0] + " " + unformatted_element[1] + " ";
+                System.out.printf("%8s", formatted_element);
+                current_column++;
         }
     }
 }
