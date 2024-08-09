@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class element {
     
     protected final static String[][] TABLE={{"H","1"},{"He","18"},{"Li","1"},{"Be","2"},{"B","13"},{"C","14"},{"N","15"},{"O","16"},{"F","17"},
@@ -18,30 +16,32 @@ public class element {
     final String DUMMY_ELEMENT = "";
     //This whole block is useless as the index of elements is meaningful, changing indexes messes everything up ;-;
     // private String[][] main_body = new String[86][2]; //Store Elements from TABLE with postitive column numbers
-    private String[] f_block = new String[30]; //Store elements from TABLE with negitive column numbers
-    
-    // public void seperate_blocks(){ // this way of doing it breaks the attomic number tracking ARGGG!!! how annoying, >:C
-    //     //Method for seperating the elements in TABLE with negitive numbers and postitive numbers
-    //     // seems to work as intended
-    //     int f_block_index = 0; //These keep track of where to put the numbers
-    //     int main_body_index = 0;
+    private String[][] f_block = new String[30][2]; //Store elements from TABLE with negitive column numbers
+    Boolean fblockdraw; //boolean weather to print f block or not
+    int[] bounds = new int[2]; //array for storing upper and lower bounds of elements to print
 
-    //     for (String[] element: TABLE){ 
+    public element(){ // all interface stuff goes in here
+        user_lowerbounds = (question)
+        user_upperbounds = (question2)
 
-    //         if (Integer.parseInt(element[1]) <= 0){
-    //             f_block[f_block_index] = element;
-    //             f_block_index++;
-    //         }  
+        user_fblock_result = (question3)
 
-    //         else{
-    //             main_body[main_body_index] = element;
-    //             main_body_index++;
-    //         }
-    //     }
-    // }
+        if fblockdraw == "y"{
+            fblockdraw = true;
+        } 
 
-    // width of elements is 7, there are 18 coloms and 9 rows
-    // that means the table will be 7 x 18 = 126 spaces long, with a space between each making it 7 x 18 + 16 = 142 wide, or 158 with double spacing between elements 
+        else{ 
+            fblockdraw = false;
+        }
+
+        if (upperbounds <= 0){ //if 0 for upper bounds assume and print whole thing with assuming message
+            upperbounds = 118
+        }
+
+        if (lowerbounds > upperbounds){
+            bad
+        }
+    }
 
     public void displayMainBlock(){ //I dont like that this "display" method is also in charge of loading the fblock
 
@@ -49,7 +49,6 @@ public class element {
         String formatted_element; 
         int needed_column; //column number for each element in the array
         int current_column = 1;
-        
         int f_block_index = 0;
 
         for (String[] unformatted_element: TABLE ){
@@ -67,19 +66,22 @@ public class element {
                 current_column++;
             }
 
-            formatted_element = atomic_number + " " + unformatted_element[0] + " ";  //formatting for the element inside the cell
-        
             if (needed_column <= 0){ //If element is in the fblock, dont print and just store it for later
-                f_block[f_block_index] = formatted_element;
+                f_block[f_block_index] = unformatted_element[0], atomic_number;
                 f_block_index++;
             }
 
-            else{ //could use else is and a passed digit to start at to make it print from a specific element
+            else{ //could use elseif with bounds to print only whats needed
+                formatted_element = atomic_number + " " + unformatted_element[0] + " ";  //formatting for the element inside the cell
                 System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
                 current_column++;
             }
             
             atomic_number++;
+        }
+
+        if (fblockdraw == true){
+            displayFBlock();
         }
     }
 
@@ -95,15 +97,15 @@ public class element {
         for (String formatted_element: f_block){
         
             if (current_column > ENDING_COLUMNS){ //print new line when at end of allowed space
-                System.err.println();
+                System.out.println();
                 current_column = 1;
             }
         
             while (current_column < STARTING_COLUMNS){ //print dummy element when before print area
-                System.err.printf("%8s", DUMMY_ELEMENT);
+                System.out.printf("%8s", DUMMY_ELEMENT);
                 current_column++;
             }
-
+            if (formatted_element[1] within bounds)
             System.out.printf("%8s", formatted_element);
             current_column++;
         }
