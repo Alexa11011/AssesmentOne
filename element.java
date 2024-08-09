@@ -86,20 +86,20 @@ public class element {
     public void displayFBlock(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
 
         int current_column = 1;
-        final int MIN_COLUMNS = 3;
-        final int MAX_COLUMNS = 17;
+        final int STARTING_COLUMNS = 3; //column to start printing from
+        final int ENDING_COLUMNS = 17; //column to stop printing at
 
         System.out.println();
         System.out.println();
 
         for (String formatted_element: f_block){
         
-            if (current_column > MAX_COLUMNS){ //print new line when at end of allowed space
+            if (current_column > ENDING_COLUMNS){ //print new line when at end of allowed space
                 System.err.println();
                 current_column = 1;
             }
         
-            while (current_column < MIN_COLUMNS){ //print dummy element when before print area
+            while (current_column < STARTING_COLUMNS){ //print dummy element when before print area
                 System.err.printf("%8s", DUMMY_ELEMENT);
                 current_column++;
             }
