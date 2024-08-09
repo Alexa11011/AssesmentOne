@@ -13,20 +13,17 @@ public class element {
     {"No","-44"},{"Lr","-45"},{"Rf","4"},{"Db","5"},{"Sg","6"},{"Bh","7"},{"Hs","8"},{"Mt","9"},{"Ds","10"},{"Rg","11"},
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
 
-    final String DUMMY_ELEMENT = "";
-    //This whole block is useless as the index of elements is meaningful, changing indexes messes everything up ;-;
-    // private String[][] main_body = new String[86][2]; //Store Elements from TABLE with postitive column numbers
+    final String DUMMY_ELEMENT = "x";
     private String[][] f_block = new String[30][2]; //Store elements from TABLE with negitive column numbers
     int fblockdraw = 1; //boolean weather to print f block or not
-    final int[] bounds = {0, 118} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
+    final int[] bounds = {0, 118, fblockdraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
 
-    public void test_code(){
-        final int lowerbounds = 0;
+    public void test_code(){ //this paramater generates every possible set of paramaters and tests the funtion with them, useful for finding issues
         final int upperbounds = 118;
         int[][] combos = new int[(upperbounds + 1) * (upperbounds + 1) * 2][3];
         int index = 0;
 
-        for (int i = 0; i <= upperbounds; i++){
+        for (int i = 0; i <= upperbounds; i++){ //Generate the superset
 
             for (int j = 0; j <= upperbounds; j++){
 
@@ -42,9 +39,17 @@ public class element {
             }
         }
 
-        for (int i = 0; i < combos.length; i++) {
-            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
-            displayMainBlock(combos[i]);
+        for (int i = 0; i < combos.length; i++) { // use the superset
+            if (combos[i][0] >= combos[i][1] ){
+                System.err.println("bad input");
+            }
+            else{
+
+                System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
+                displayMainBlock(combos[i]);
+            }
+
+            System.out.println();
         }
 
     }
@@ -73,7 +78,7 @@ public class element {
     //     }
     // }
 
-    public void displayMainBlock(int[] args){ //I dont like that this "display" method is also in charge of loading the fblock
+    public void displayMainBlock(int[] bounds){
 
         int atomic_number = 1;
         String formatted_element; 
@@ -102,11 +107,12 @@ public class element {
                 f_block_index++; 
             }
 
-            else if ((atomic_number > args[0]) & (atomic_number < args[1] )) { //could use elseif with bounds to print only whats needed
+            else if ((atomic_number >= bounds[0]) & (atomic_number <= bounds[1] )) { //could use elseif with bounds to print only whats needed
                 formatted_element = atomic_number + " " + unformatted_element[0] + " ";  //formatting for the element inside the cell
                 System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
                 current_column++;
             }
+
             else{
                 System.out.printf("%8s", DUMMY_ELEMENT); //% is escape, 8 characters, looking for string s, put in a dummy element which is an empty string; printf allows formatting
                 current_column++;
@@ -115,22 +121,25 @@ public class element {
             atomic_number++;
         }
 
-        if (args[2] == 1){
-            displayFBlock();
+         if (bounds[2] == 1){
+             displayFBlock(bounds);
         }
     }
 
-    public void displayFBlock(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
+    public void displayFBlock(int[] bounds){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
 
         final int STARTING_COLUMNS = 3; //column to start printing from
         final int ENDING_COLUMNS = 17; //column to stop printing at
         int current_column = 1;
         String formatted_element = "";
+        int atomic_number;
 
         System.out.println();
         System.out.println();
 
         for (String[] unformatted_element: f_block){
+
+            atomic_number = Integer.parseInt(unformatted_element[1]);
         
             if (current_column > ENDING_COLUMNS){ //print new line when at end of allowed space
                 System.out.println();
@@ -141,10 +150,16 @@ public class element {
                 System.out.printf("%8s", DUMMY_ELEMENT);
                 current_column++;
             }
-            if (Integer.parseInt(unformatted_element[1]) >= bounds[0] || (Integer.parseInt(unformatted_element[1]) <= bounds[1]))
+            if ((atomic_number >= bounds[0]) & ( atomic_number <= bounds[1])){
                 formatted_element = unformatted_element[0] + " " + unformatted_element[1] + " ";
                 System.out.printf("%8s", formatted_element);
                 current_column++;
+            }
+
+            else {
+                System.out.printf("%8s", DUMMY_ELEMENT);
+                current_column++;
+            }
         }
     }
 }

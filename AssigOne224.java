@@ -34,8 +34,12 @@ public class AssigOne224
 
         element e = new element();
 
-        // e.displayMainBlock();
-        // e.test_code(); // this is a big method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k elements 
+        int[] bounds = {0, 118, 1}; //basicly test paramaters, in order they are lower bounds, upper bounds and weather to include f block, 1 for yes
+
+        e.displayMainBlock(bounds);
+        e.test_code(); // this is a method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables haha
+        
+
 
     }
 }
