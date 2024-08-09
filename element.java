@@ -107,6 +107,10 @@ public class element {
                 System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
                 current_column++;
             }
+            else{
+                System.out.printf("%8s", DUMMY_ELEMENT); //% is escape, 8 characters, looking for string s, put in a dummy element which is an empty string; printf allows formatting
+                current_column++;
+            }
             
             atomic_number++;
         }
