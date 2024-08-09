@@ -44,6 +44,7 @@ public class element {
 
         for (int i = 0; i < combos.length; i++) {
             System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
+            displayMainBlock(combos[i]);
         }
 
     }
@@ -72,7 +73,7 @@ public class element {
     //     }
     // }
 
-    public void displayMainBlock(){ //I dont like that this "display" method is also in charge of loading the fblock
+    public void displayMainBlock(int[] args){ //I dont like that this "display" method is also in charge of loading the fblock
 
         int atomic_number = 1;
         String formatted_element; 
@@ -101,7 +102,7 @@ public class element {
                 f_block_index++; 
             }
 
-            else{ //could use elseif with bounds to print only whats needed
+            else if ((atomic_number > args[0]) & (atomic_number < args[1] )) { //could use elseif with bounds to print only whats needed
                 formatted_element = atomic_number + " " + unformatted_element[0] + " ";  //formatting for the element inside the cell
                 System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
                 current_column++;
@@ -110,7 +111,7 @@ public class element {
             atomic_number++;
         }
 
-        if (fblockdraw == 1){
+        if (args[2] == 1){
             displayFBlock();
         }
     }
