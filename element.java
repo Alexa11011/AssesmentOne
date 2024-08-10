@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class element {
     
     protected final static String[][] TABLE={{"H","1"},{"He","18"},{"Li","1"},{"Be","2"},{"B","13"},{"C","14"},{"N","15"},{"O","16"},{"F","17"},
@@ -14,18 +16,18 @@ public class element {
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
 
     final String DUMMY_ELEMENT = "x";
-    private String[][] f_block = new String[30][2]; //Store elements from TABLE with negitive column numbers
-    int fblockdraw = 1; //boolean weather to print f block or not
-    int[] bounds = {0, 118, fblockdraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
+    private String[][] fBlock = new String[30][2]; //Store elements from TABLE with negitive column numbers
+    int fBlockDraw = 1; //boolean weather to print f block or not
+    int[] bounds = {0, 118, fBlockDraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
 
     public void test_code(){ //this paramater generates every possible set of paramaters and tests the funtion with them, useful for finding issues
-        final int upperbounds = 118;
-        int[][] combos = new int[(upperbounds + 1) * (upperbounds + 1) * 2][3];
+        final int UPPERBOUNDS = 118;
+        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS + 1) * 2][3];
         int index = 0;
 
-        for (int i = 0; i <= upperbounds; i++){ //Generate the superset
+        for (int i = 0; i <= UPPERBOUNDS; i++){ //Generate the superset
 
-            for (int j = 0; j <= upperbounds; j++){
+            for (int j = 0; j <= UPPERBOUNDS; j++){
 
                 for (int k = 0; k <= 1; k++){
                     
@@ -54,70 +56,94 @@ public class element {
     }
 
 
-    // public element(){ // all interface stuff goes in here
-    //     user_lowerbounds = (question)
-    //     user_upperbounds = (question2)
+    public element(){ // all interface stuff goes in here
+        
+        Scanner sc = new Scanner(System.in); //new Scanner class object
+        char userFBlockResult; //input for whether the user wants to print the f-block
+        boolean fBlockDraw; // true or false depending on whether the f-block is to be printed
+        int userLowerBounds; // first atomic number entered
+        int userUpperBounds; // second atomic number entered
 
-    //     user_fblock_result = (question3)
+        System.out.println("Periodic Table Printer");
+        System.out.println("");
 
-    //     if fblockdraw == "y"{
-    //         fblockdraw = true;
-    //     } 
+        System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
+        userFBlockResult = sc.nextLine().charAt(0);
 
-    //     else{ 
-    //         fblockdraw = false;
-    //     }
+        if (userFBlockResult == 'y' || userFBlockResult == 'Y') {                 
+            fBlockDraw = true;
+        }
+        
+        else {
+            fBlockDraw = false;
+            System.out.println("...N assumed...");
+        }
+        
+        System.out.println("Enter number of first element to print: ");
+        userLowerBounds = sc.nextInt();
 
-    //     if (upperbounds <= 0){ //if 0 for upper bounds assume and print whole thing with assuming message
-    //         upperbounds = 118
-    //     }
+        if (userLowerBounds <= 0 || userLowerBounds > 118) {
+            userLowerBounds = 1;
+            System.out.println("...1 assumed...");
+        }
 
-    //     if (lowerbounds > upperbounds){
-    //         bad
-    //     }
-    // }
+        System.out.println("Enter number of last element to print: ");
+        userUpperBounds = sc.nextInt();
+
+        if (userUpperBounds <= 0 || userUpperBounds > 118) {
+            userUpperBounds = 118;
+            System.out.println("...118 assumed...");
+        }
+
+        if (userLowerBounds > userUpperBounds) {
+            userLowerBounds = 1;
+            userUpperBounds = 118;
+            System.out.println("...1 to 118 assumed...");
+        }
+    }
+
 
     public void displayMainBlock(){
 
-        int atomic_number = 1;
-        String formatted_element; 
-        int needed_column; //column number for each element in the array
-        int current_column = 1;
-        int f_block_index = 0;
+        int atomicNumber = 1;
+        String formattedElement; 
+        int neededColumn; //column number for each element in the array
+        int currentColumn = 1;
+        int fBlockIndex = 0;
 
-        for (String[] unformatted_element: TABLE ){
+        for (String[] unformattedElement: TABLE ){
 
-            needed_column = Integer.parseInt(unformatted_element[1]);  //the array element at index 1 is a string, so convert to integer by parsing
+            neededColumn = Integer.parseInt(unformattedElement[1]);  //the array element at index 1 is a string, so convert to integer by parsing
             //current_column %= COLUMNS;  //Alexa may discard
 
-            if ((needed_column < current_column) & (needed_column > 0)){  //if current column is over the needed column, go to the next line, unless needed column is neg
+            if ((neededColumn < currentColumn) & (neededColumn > 0)){  //if current column is over the needed column, go to the next line, unless needed column is neg
                 System.out.println();
-                current_column = 1; //when going to next line reset current colom to 1
+                currentColumn = 1; //when going to next line reset current colom to 1
             }
 
-            while ((needed_column > current_column) & (needed_column > 0)) { //handling gaps in the periodic table, prints dummy elements if a gap is needed
+            while ((neededColumn > currentColumn) & (neededColumn > 0)) { //handling gaps in the periodic table, prints dummy elements if a gap is needed
                 System.out.printf("%8s", DUMMY_ELEMENT); //% is escape, 8 characters, looking for string s, put in a dummy element which is an empty string; printf allows formatting
-                current_column++;
+                currentColumn++;
             }
 
-            if (needed_column <= 0){ //If element is in the fblock, dont print and just store it for later
-                f_block[f_block_index][0] = unformatted_element[0];
-                f_block[f_block_index][1] = String.valueOf(atomic_number);
-                f_block_index++; 
+            if (neededColumn <= 0){ //If element is in the fblock, dont print and just store it for later
+                fBlock[fBlockIndex][0] = unformattedElement[0];
+                fBlock[fBlockIndex][1] = String.valueOf(atomicNumber);
+                fBlockIndex++; 
             }
 
-            else if ((atomic_number >= bounds[0]) & (atomic_number <= bounds[1] )) { //could use elseif with bounds to print only whats needed
-                formatted_element = atomic_number + " " + unformatted_element[0] + " ";  //formatting for the element inside the cell
-                System.out.printf("%8s", formatted_element);  //printing the element; ensuring 8 wide inside each cell
-                current_column++;
+            else if ((atomicNumber >= bounds[0]) & (atomicNumber <= bounds[1] )) { //could use elseif with bounds to print only whats needed
+                formattedElement = atomicNumber + " " + unformattedElement[0] + " ";  //formatting for the element inside the cell
+                System.out.printf("%8s", formattedElement);  //printing the element; ensuring 8 wide inside each cell
+                currentColumn++;
             }
 
             else{
                 System.out.printf("%8s", DUMMY_ELEMENT); //% is escape, 8 characters, looking for string s, put in a dummy element which is an empty string; printf allows formatting
-                current_column++;
+                currentColumn++;
             }
             
-            atomic_number++;
+            atomicNumber++;
         }
 
          if (bounds[2] == 1){
@@ -129,35 +155,35 @@ public class element {
 
         final int STARTING_COLUMNS = 3; //column to start printing from
         final int ENDING_COLUMNS = 17; //column to stop printing at
-        int current_column = 1;
-        String formatted_element = "";
-        int atomic_number;
+        int currentColumn = 1;
+        String formattedElement = "";
+        int atomicNumber;
 
         System.out.println();
         System.out.println();
 
-        for (String[] unformatted_element: f_block){
+        for (String[] unformattedElement: fBlock){
 
-            atomic_number = Integer.parseInt(unformatted_element[1]);
+            atomicNumber = Integer.parseInt(unformattedElement[1]);
         
-            if (current_column > ENDING_COLUMNS){ //print new line when at end of allowed space
+            if (currentColumn > ENDING_COLUMNS){ //print new line when at end of allowed space
                 System.out.println();
-                current_column = 1;
+                currentColumn = 1;
             }
         
-            while (current_column < STARTING_COLUMNS){ //print dummy element when before print area
+            while (currentColumn < STARTING_COLUMNS){ //print dummy element when before print area
                 System.out.printf("%8s", DUMMY_ELEMENT);
-                current_column++;
+                currentColumn++;
             }
-            if ((atomic_number >= bounds[0]) & ( atomic_number <= bounds[1])){
-                formatted_element = unformatted_element[0] + " " + unformatted_element[1] + " ";
-                System.out.printf("%8s", formatted_element);
-                current_column++;
+            if ((atomicNumber >= bounds[0]) & ( atomicNumber <= bounds[1])){
+                formattedElement = unformattedElement[0] + " " + unformattedElement[1] + " ";
+                System.out.printf("%8s", formattedElement);
+                currentColumn++;
             }
 
             else {
                 System.out.printf("%8s", DUMMY_ELEMENT);
-                current_column++;
+                currentColumn++;
             }
         }
     }
