@@ -16,7 +16,7 @@ public class element {
     final String DUMMY_ELEMENT = "x";
     private String[][] f_block = new String[30][2]; //Store elements from TABLE with negitive column numbers
     int fblockdraw = 1; //boolean weather to print f block or not
-    final int[] bounds = {0, 118, fblockdraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
+    int[] bounds = {0, 118, fblockdraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
 
     public void test_code(){ //this paramater generates every possible set of paramaters and tests the funtion with them, useful for finding issues
         final int upperbounds = 118;
@@ -29,10 +29,11 @@ public class element {
 
                 for (int k = 0; k <= 1; k++){
                     
-                    combos[index][0] = i;
-                    combos[index][1] = j;
-                    combos[index][2] = k; 
-
+                    if (i < j){
+                        combos[index][0] = i;
+                        combos[index][1] = j;
+                        combos[index][2] = k; 
+                    }
                     index++;
                 }
 
@@ -40,14 +41,12 @@ public class element {
         }
 
         for (int i = 0; i < combos.length; i++) { // use the superset
-            if (combos[i][0] >= combos[i][1] ){
-                System.err.println("bad input");
-            }
-            else{
 
-                System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
-                displayMainBlock(combos[i]);
-            }
+            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
+            bounds[0] = combos[i][0];
+            bounds[1] = combos[i][1];
+            bounds[2] = combos[i][2];
+            displayMainBlock();
 
             System.out.println();
         }
@@ -78,7 +77,7 @@ public class element {
     //     }
     // }
 
-    public void displayMainBlock(int[] bounds){
+    public void displayMainBlock(){
 
         int atomic_number = 1;
         String formatted_element; 
@@ -122,11 +121,11 @@ public class element {
         }
 
          if (bounds[2] == 1){
-             displayFBlock(bounds);
+             displayFBlock();
         }
     }
 
-    public void displayFBlock(int[] bounds){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
+    public void displayFBlock(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
 
         final int STARTING_COLUMNS = 3; //column to start printing from
         final int ENDING_COLUMNS = 17; //column to stop printing at
