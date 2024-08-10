@@ -20,8 +20,13 @@ public class testInput {
         }
         
         else {
-            fBlockDraw = false;
-            System.out.println("...N assumed...");
+            if (userFBlockResult == 'n' || userFBlockResult == 'N') {
+                fBlockDraw = false;
+            }        
+            else {
+                fBlockDraw = false;
+                System.out.println("...N assumed...");
+            }          
         }
         
         System.out.println("Enter number of first element to print: ");
