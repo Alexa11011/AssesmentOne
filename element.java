@@ -15,7 +15,7 @@ public class element {
     {"No","-44"},{"Lr","-45"},{"Rf","4"},{"Db","5"},{"Sg","6"},{"Bh","7"},{"Hs","8"},{"Mt","9"},{"Ds","10"},{"Rg","11"},
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
 
-    final String DUMMY_ELEMENT = "x";
+    final String DUMMY_ELEMENT = "x"; //set dummy element to x so its easier to see 
     private String[][] fBlock = new String[30][2]; //Store elements from TABLE with negitive column numbers
     int fBlockDraw = 1; //boolean weather to print f block or not
     int[] bounds = {0, 118, fBlockDraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
@@ -60,7 +60,7 @@ public class element {
         
         Scanner sc = new Scanner(System.in); //new Scanner class object
         char userFBlockResult; //input for whether the user wants to print the f-block
-        boolean fBlockDraw; // true or false depending on whether the f-block is to be printed
+        int fBlockDraw; // true or false depending on whether the f-block is to be printed, uses int so can be stored with upper and lower bounds
         int userLowerBounds; // first atomic number entered
         int userUpperBounds; // second atomic number entered
 
@@ -71,17 +71,16 @@ public class element {
         userFBlockResult = sc.nextLine().charAt(0);
 
         if (userFBlockResult == 'y' || userFBlockResult == 'Y') {                 
-            fBlockDraw = true;
+            fBlockDraw = 1;
         }
         
-        else {
-            if (userFBlockResult == 'n' || userFBlockResult == 'N') {
-                fBlockDraw = false;
+        else if (userFBlockResult == 'n' || userFBlockResult == 'N') {
+                fBlockDraw = 0;
             }        
-            else {
-                fBlockDraw = false;
-                System.out.println("...N assumed...");
-            }          
+
+        else {
+                fBlockDraw = 0;
+                System.out.println("...N assumed...");          
         }
         
         System.out.println("Enter number of first element to print: ");
@@ -105,6 +104,10 @@ public class element {
             userUpperBounds = 118;
             System.out.println("...1 to 118 assumed...");
         }
+
+        bounds[0] = userLowerBounds;
+        bounds[1] = userUpperBounds;
+        bounds[2] = fBlockDraw;
     }
 
 
@@ -119,7 +122,6 @@ public class element {
         for (String[] unformattedElement: TABLE ){
 
             neededColumn = Integer.parseInt(unformattedElement[1]);  //the array element at index 1 is a string, so convert to integer by parsing
-            //current_column %= COLUMNS;  //Alexa may discard
 
             if ((neededColumn < currentColumn) & (neededColumn > 0)){  //if current column is over the needed column, go to the next line, unless needed column is neg
                 System.out.println();

@@ -35,7 +35,7 @@ public class AssigOne224
         element e = new element();
 
         e.displayMainBlock();
-        e.test_code(); // this is a method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables haha
+        //e.test_code(); // this is a method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables haha
         
 
 
