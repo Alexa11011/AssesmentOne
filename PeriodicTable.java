@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class element {
+public class PeriodicTable {
     
     protected final static String[][] TABLE={{"H","1"},{"He","18"},{"Li","1"},{"Be","2"},{"B","13"},{"C","14"},{"N","15"},{"O","16"},{"F","17"},
     {"Ne","18"},{"Na","1"},{"Mg","2"},{"Al","13"},{"Si","14"},{"P","15"},{"S","16"},{"Cl","17"},{"Ar","18"},{"K","1"},{"Ca","2"},
@@ -20,7 +20,7 @@ public class element {
     boolean fBlockDraw = true; //boolean weather to print f block or not
     int[] bounds = {0, 118} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
 
-    public void test_code(){ //this paramater generates every possible set of paramaters and tests the funtion with them, useful for finding issues
+    public void unit_test(){ //this paramater generates every possible set of paramaters and tests the funtion with them, useful for finding issues
         final int UPPERBOUNDS = 118;
         int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS + 1) * 2][3];
         int index = 0;
@@ -53,7 +53,7 @@ public class element {
             if (combos[i][2] == 1){
                 fBlockDraw = true;
             }
-            displayMainBlock();
+            printTables();
 
             System.out.println();
         }
@@ -61,7 +61,7 @@ public class element {
     }
 
 
-    public element(){ // all interface stuff goes in here
+    public PeriodicTable(){ // all interface stuff goes in here
         
         Scanner sc = new Scanner(System.in); //new Scanner class object
         char userFBlockResult; //input for whether the user wants to print the f-block
@@ -89,7 +89,7 @@ public class element {
         }
         
         System.out.println("Enter number of first element to print: ");
-        userLowerBounds = sc.nextInt();
+        userLowerBounds = sc.nextInt(); //this needs validation
 
         if (userLowerBounds <= 0 || userLowerBounds > 118) {
             userLowerBounds = 1;
@@ -115,7 +115,7 @@ public class element {
     }
 
 
-    public void displayMainBlock(){
+    public void printTables(){
 
         int atomicNumber = 1;
         String formattedElement; 
@@ -158,11 +158,11 @@ public class element {
         }
 
          if (fBlockDraw == true){
-             displayFBlock();
+             printGroups();
         }
     }
 
-    public void displayFBlock(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
+    public void printGroups(){ //display the fblock of the table, needs to be done after display main block which feels a bit bad, it is working though
 
         final int STARTING_COLUMNS = 3; //column to start printing from
         final int ENDING_COLUMNS = 17; //column to stop printing at
