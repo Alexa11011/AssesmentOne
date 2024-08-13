@@ -17,8 +17,8 @@ public class element {
 
     final String DUMMY_ELEMENT = "x"; //set dummy element to x so its easier to see 
     private String[][] fBlock = new String[30][2]; //Store elements from TABLE with negitive column numbers
-    int fBlockDraw = 1; //boolean weather to print f block or not
-    int[] bounds = {0, 118, fBlockDraw} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
+    boolean fBlockDraw = true; //boolean weather to print f block or not
+    int[] bounds = {0, 118} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
 
     public void test_code(){ //this paramater generates every possible set of paramaters and tests the funtion with them, useful for finding issues
         final int UPPERBOUNDS = 118;
@@ -47,7 +47,12 @@ public class element {
             System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
             bounds[0] = combos[i][0];
             bounds[1] = combos[i][1];
-            bounds[2] = combos[i][2];
+            if (combos[i][2] == 0){
+                fBlockDraw = false;
+            }
+            if (combos[i][2] == 1){
+                fBlockDraw = true;
+            }
             displayMainBlock();
 
             System.out.println();
@@ -60,7 +65,7 @@ public class element {
         
         Scanner sc = new Scanner(System.in); //new Scanner class object
         char userFBlockResult; //input for whether the user wants to print the f-block
-        int fBlockDraw; // true or false depending on whether the f-block is to be printed, uses int so can be stored with upper and lower bounds
+        // int fBlockDraw; // true or false depending on whether the f-block is to be printed, uses int so can be stored with upper and lower bounds
         int userLowerBounds; // first atomic number entered
         int userUpperBounds; // second atomic number entered
 
@@ -71,15 +76,15 @@ public class element {
         userFBlockResult = sc.nextLine().charAt(0);
 
         if (userFBlockResult == 'y' || userFBlockResult == 'Y') {                 
-            fBlockDraw = 1;
+            fBlockDraw = true;
         }
         
         else if (userFBlockResult == 'n' || userFBlockResult == 'N') {
-                fBlockDraw = 0;
+                fBlockDraw = false;
             }        
 
         else {
-                fBlockDraw = 0;
+                fBlockDraw = false;
                 System.out.println("...N assumed...");          
         }
         
@@ -107,7 +112,6 @@ public class element {
 
         bounds[0] = userLowerBounds;
         bounds[1] = userUpperBounds;
-        bounds[2] = fBlockDraw;
     }
 
 
@@ -153,7 +157,7 @@ public class element {
             atomicNumber++;
         }
 
-         if (bounds[2] == 1){
+         if (fBlockDraw == true){
              displayFBlock();
         }
     }
