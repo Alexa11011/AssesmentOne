@@ -76,7 +76,7 @@ public class PeriodicTable {
 
     }
 
-    public PeriodicTable() { // separate try-catch for each input
+    public PeriodicTable() { 
 
         Scanner sc = new Scanner(System.in); // new Scanner class object
         char userFBlockResult; // input for whether the user wants to print the f-block
@@ -102,26 +102,36 @@ public class PeriodicTable {
                 fBlockDraw = false;
                 System.out.println("...N assumed...");
             }
-
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.out.println("...N assumed...");
-            {
-            }
         }
 
-        System.out.println("Enter number of first element to print: ");
-        userLowerBounds = sc.nextInt(); // this needs validation
 
-        if (userLowerBounds <= 0 || userLowerBounds > 118) {
-            userLowerBounds = 1;
+        System.out.println("Enter number of first element to print: ");
+        try {
+            userLowerBounds = sc.nextInt(); // this needs validation
+
+            if (userLowerBounds <= 0 || userLowerBounds > 118) {
+                userLowerBounds = 1;
+                System.out.println("...1 assumed...");
+            }
+        }
+        catch (Exception e){
             System.out.println("...1 assumed...");
         }
 
-        System.out.println("Enter number of last element to print: ");
-        userUpperBounds = sc.nextInt();
 
-        if (userUpperBounds <= 0 || userUpperBounds > 118) {
-            userUpperBounds = 118;
+        System.out.println("Enter number of last element to print: ");
+        try {
+            userUpperBounds = sc.nextInt();
+
+            if (userUpperBounds <= 0 || userUpperBounds > 118) {
+                userUpperBounds = 118;
+                System.out.println("...118 assumed...");
+                }
+        }
+        catch (Exception e){
             System.out.println("...118 assumed...");
         }
 
@@ -134,6 +144,8 @@ public class PeriodicTable {
         bounds[0] = userLowerBounds;
         bounds[1] = userUpperBounds;
     }
+    
+    
 
     public void printTables() {
 
