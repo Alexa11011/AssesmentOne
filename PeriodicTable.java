@@ -15,7 +15,7 @@ public class PeriodicTable {
     {"No","-44"},{"Lr","-45"},{"Rf","4"},{"Db","5"},{"Sg","6"},{"Bh","7"},{"Hs","8"},{"Mt","9"},{"Ds","10"},{"Rg","11"},
     {"Cn","12"},{"Uut","13"},{"Fl","14"},{"Uup","15"},{"Lv","16"},{"Uus","17"},{"Uuo","18"}};
 
-    final String DUMMY_ELEMENT = "x"; //set dummy element to x so its easier to see 
+    final String DUMMY_ELEMENT = ""; //set dummy element to x so its easier to see 
     private String[][] fBlock = new String[30][2]; //Store elements from TABLE with negitive column numbers
     boolean fBlockDraw = true; //boolean weather to print f block or not
     int[] bounds = {0, 118} ; //array for storing upper and lower bounds of elements to print, has final keywork for testing
@@ -31,11 +31,11 @@ public class PeriodicTable {
 
                 for (int k = 0; k <= 1; k++){
                     
-                    if (i < j){
+
                         combos[index][0] = i;
                         combos[index][1] = j;
                         combos[index][2] = k; 
-                    }
+            
                     index++;
                 }
 
@@ -43,29 +43,30 @@ public class PeriodicTable {
         }
 
         for (int i = 0; i < combos.length; i++) { // use the superset
+            // System.out.println();
+            // System.out.printf("%d %d %d      ", combos[i][0], combos[i][1], combos[i][2]);
 
-            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
+            // System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
             bounds[0] = combos[i][0];
             bounds[1] = combos[i][1];
             if (combos[i][2] == 0){
-                fBlockDraw = false;
-            }
-            if (combos[i][2] == 1){
-                fBlockDraw = true;
-            }
-            printTables();
+                 fBlockDraw = false;
+             }
+             if (combos[i][2] == 1){
+                 fBlockDraw = true;
+             }
+             printTables();
 
-            System.out.println();
+             System.out.println();
         }
 
     }
 
 
-    public PeriodicTable(){ // all interface stuff goes in here
+    public PeriodicTable(){ // separate try-catch for each input 
         
         Scanner sc = new Scanner(System.in); //new Scanner class object
         char userFBlockResult; //input for whether the user wants to print the f-block
-        // int fBlockDraw; // true or false depending on whether the f-block is to be printed, uses int so can be stored with upper and lower bounds
         int userLowerBounds; // first atomic number entered
         int userUpperBounds; // second atomic number entered
 
@@ -73,7 +74,9 @@ public class PeriodicTable {
         System.out.println("");
 
         System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
-        userFBlockResult = sc.nextLine().charAt(0);
+        try{
+            userFBlockResult = sc.nextLine().charAt(0);
+
 
         if (userFBlockResult == 'y' || userFBlockResult == 'Y') {                 
             fBlockDraw = true;
@@ -87,6 +90,12 @@ public class PeriodicTable {
                 fBlockDraw = false;
                 System.out.println("...N assumed...");          
         }
+        
+        } catch (Exception e) {
+            System.out.println("...N assumed...");{
+        }
+        }
+
         
         System.out.println("Enter number of first element to print: ");
         userLowerBounds = sc.nextInt(); //this needs validation
@@ -157,7 +166,7 @@ public class PeriodicTable {
             atomicNumber++;
         }
 
-         if (fBlockDraw == true){
+         if (fBlockDraw == true){ //this is wrong
              printGroups();
         }
     }
@@ -172,6 +181,8 @@ public class PeriodicTable {
 
         System.out.println();
         System.out.println();
+
+        //make condition in this method weather to print or not
 
         for (String[] unformattedElement: fBlock){
 
@@ -197,5 +208,7 @@ public class PeriodicTable {
                 currentColumn++;
             }
         }
+
+        System.out.println();
     }
 }
