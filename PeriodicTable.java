@@ -27,16 +27,18 @@ public class PeriodicTable {
             { "Cn", "12" }, { "Uut", "13" }, { "Fl", "14" }, { "Uup", "15" }, { "Lv", "16" }, { "Uus", "17" },
             { "Uuo", "18" } };
 
-    final String DUMMY_ELEMENT = ""; // set dummy element to x so its easier to see
-    private String[][] fBlock = new String[30][2]; // Store elements from TABLE with negitive column numbers
-    boolean fBlockDraw = true; // boolean weather to print f block or not
-    int[] bounds = { 0, 118 }; // array for storing upper and lower bounds of elements to print, has final
+
+    final String DUMMY_ELEMENT = ""; // Empty string for printing in the gaps in the periodic table
+    private String[][] fBlock = new String[30][2]; // Array for storing elements from TABLE that have negative column numbers
+    boolean fBlockDraw = true; // Boolean variable for whether to print the f-block or not
+    int[] bounds = { 0, 118 }; // Array for storing upper and lower bounds of elements to print; has final
                                // keywork for testing
 
-    public void unit_test() { // this paramater generates every possible set of paramaters and tests the
-                              // funtion with them, useful for finding issues
-        final int UPPERBOUNDS = 118;
-        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS + 1) * 2][3];
+    public void unit_test() { // Method for generating every possible set of upper and lower bounds for testing the
+                              // PeriodicTable constructor. Useful for finding issues
+
+        final int UPPERBOUNDS = 118; // Maximum number of elements in the table
+        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS + 1) * 2][3]; 
         int index = 0;
 
         for (int i = 0; i <= UPPERBOUNDS; i++) { // Generate the superset
@@ -55,12 +57,7 @@ public class PeriodicTable {
             }
         }
 
-        for (int i = 0; i < combos.length; i++) { // use the superset
-            // System.out.println();
-            // System.out.printf("%d %d %d ", combos[i][0], combos[i][1], combos[i][2]);
-
-            // System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1],
-            // combos[i][2]);
+        for (int i = 0; i < combos.length; i++) { // Iterate through the superset
             bounds[0] = combos[i][0];
             bounds[1] = combos[i][1];
             if (combos[i][2] == 0) {
