@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class PeriodicTable {
+public class PeriodicTable implements PeriodicTableInterface {
 
     protected final static String[][] TABLE = { { "H", "1" }, { "He", "18" }, { "Li", "1" }, { "Be", "2" },
             { "B", "13" }, { "C", "14" }, { "N", "15" }, { "O", "16" }, { "F", "17" },
@@ -73,16 +73,17 @@ public class PeriodicTable {
 
     }
 
-    public PeriodicTable() { 
+    public PeriodicTable() {  // Obtains user input for constructing the PeriodTable object
 
-        Scanner sc = new Scanner(System.in); // new Scanner class object
-        char userFBlockResult; // input for whether the user wants to print the f-block
-        int userLowerBounds; // first atomic number entered
-        int userUpperBounds; // second atomic number entered
+        Scanner sc = new Scanner(System.in); // Scanner class object for receiving input
+        char userFBlockResult; // User's decision for whether to print the f-block
+        int userLowerBounds = 0; // First atomic number entered by the user
+        int userUpperBounds = 0; // Second atomic number entered the user
 
         System.out.println("Periodic Table Printer");
         System.out.println("");
 
+        // Obtaining from the user whether they want the f-block printed
         System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
         try {
             userFBlockResult = sc.nextLine().charAt(0);
@@ -101,13 +102,14 @@ public class PeriodicTable {
             }
         } 
         catch (Exception e) {
+            fBlockDraw = false;
             System.out.println("...N assumed...");
         }
 
-
+        // Obtaining the lower bound of the range of elements to print 
         System.out.println("Enter number of first element to print: ");
         try {
-            userLowerBounds = sc.nextInt(); // this needs validation
+            userLowerBounds = sc.nextInt(); 
 
             if (userLowerBounds <= 0 || userLowerBounds > 118) {
                 userLowerBounds = 1;
@@ -115,10 +117,11 @@ public class PeriodicTable {
             }
         }
         catch (Exception e){
+            userLowerBounds = 1;
             System.out.println("...1 assumed...");
         }
 
-
+        // Obtaining the upper bound of the range of elements to print 
         System.out.println("Enter number of last element to print: ");
         try {
             userUpperBounds = sc.nextInt();
@@ -129,6 +132,7 @@ public class PeriodicTable {
                 }
         }
         catch (Exception e){
+            userUpperBounds = 118;
             System.out.println("...118 assumed...");
         }
 

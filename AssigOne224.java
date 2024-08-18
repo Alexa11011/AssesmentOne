@@ -23,12 +23,13 @@ public class AssigOne224
     {
         PeriodicTable p;
     
-        //create PeriodicTable object
-        p=new PeriodicTable();
+        // Create PeriodicTable object
+        p = new PeriodicTable();
         
         System.out.println("\t\t\t\t\t\t\t\t Periodic Table");
         System.out.println("\t\t\t\t\t\t\t\t ==============");
-        // // show (portion of) periodic table
+
+        // Show (portion of) periodic table
         p.printTables();
         p.printGroups();
 
