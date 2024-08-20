@@ -23,16 +23,17 @@ public class AssigOne224
     {
         PeriodicTable p;
     
-        //create PeriodicTable object
-        p=new PeriodicTable();
+        // Create PeriodicTable object
+        p = new PeriodicTable();
         
         System.out.println("\t\t\t\t\t\t\t\t Periodic Table");
         System.out.println("\t\t\t\t\t\t\t\t ==============");
-        // // show (portion of) periodic table
-        //p.printTables();
-        //p.printGroups();
 
-        p.unit_test(); // this is a method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables haha
+        // Show (portion of) periodic table
+        p.printTables();
+        p.printGroups();
+
+        //p.unit_test(); // A testing method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables
         
 
 

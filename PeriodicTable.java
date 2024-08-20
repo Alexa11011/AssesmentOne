@@ -1,3 +1,19 @@
+/**
+ * KIT107 Assignment 1
+ *
+ * Periodic Table Printer
+ *
+ * PeriodicTable.java
+ * 
+ * @author Alexa McKone (----------) & Ellie Bedells (470967)
+ * @version 18/7/2024
+ * 
+ * Purpose:  To print a range of elements belonging to the main group and/or f-block 
+ * of the Periodic Table as specified by the user.
+ * 
+ * Percentage of work completed by authors:  50:50.
+ */
+
 import java.util.Scanner;
 
 public class PeriodicTable implements PeriodicTableInterface {
@@ -28,11 +44,12 @@ public class PeriodicTable implements PeriodicTableInterface {
             { "Cn", "12" }, { "Uut", "13" }, { "Fl", "14" }, { "Uup", "15" }, { "Lv", "16" }, { "Uus", "17" },
             { "Uuo", "18" } };
 
-    final String DUMMY_ELEMENT = ""; // set dummy element to x so its easier to see
-    private String[][] fBlock = new String[30][2]; // Store elements from TABLE with negitive column numbers
-    boolean fBlockDraw = true; // boolean weather to print f block or not
-    int[] bounds = { 0, 118 }; // array for storing upper and lower bounds of elements to print, has final
-                               // keywork for testing
+
+    final String DUMMY_ELEMENT = ""; // Empty string for printing in required gaps in the periodic table
+    private String[][] fBlock = new String[30][2]; // Array for storing f-block elements from TABLE array
+    boolean fBlockDraw = true; // Boolean variable for whether to print the f-block or not
+    int[] bounds = { 0, 118 }; // Array for storing upper and lower bounds of elements to print; has final keywork for testing
+
 
     public void unit_test() { // this paramater generates every possible set of paramaters and tests the
                               // funtion with them, useful for finding issues
@@ -40,7 +57,8 @@ public class PeriodicTable implements PeriodicTableInterface {
         int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS)][3];
         int index = 0;
 
-        for (int i = 0; i <= UPPERBOUNDS; i++) { // Generate the superset
+        // Generates the superset of possibilities
+        for (int i = 0; i <= UPPERBOUNDS; i++) { 
 
             for (int j = i + 1; j <= UPPERBOUNDS; j++) {
 
@@ -50,7 +68,7 @@ public class PeriodicTable implements PeriodicTableInterface {
                     combos[index][1] = j;
                     combos[index][2] = k;
 
-                    index++;
+                    index ++;
                 }
 
             }
@@ -80,14 +98,15 @@ public class PeriodicTable implements PeriodicTableInterface {
 
     public PeriodicTable() {
 
-        Scanner sc = new Scanner(System.in); // new Scanner class object
-        char userFBlockResult; // input for whether the user wants to print the f-block
-        int userLowerBounds; // first atomic number entered
-        int userUpperBounds; // second atomic number entered
+        Scanner sc = new Scanner(System.in); // Scanner class object for receiving input
+        char userFBlockResult; // User's decision for whether to print the f-block or not
+        int userLowerBounds = 0; // First atomic number entered by the user
+        int userUpperBounds = 0; // Second atomic number entered the user
 
         System.out.println("Periodic Table Printer");
         System.out.println("");
 
+        // Obtaining from the user whether they want the f-block printed
         System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
 
         try {
@@ -141,73 +160,71 @@ public class PeriodicTable implements PeriodicTableInterface {
             userUpperBounds = 118;
             System.out.println("...1 to 118 assumed...");
         }
-
+        // Assigns the upper and lower bounds entered by the user to the "bounds" array
         bounds[0] = userLowerBounds;
         bounds[1] = userUpperBounds;
     }
 
     public void printTables() {
 
-        int atomicNumber = 1;
-        String formattedElement;
-        int neededColumn; // column number for each element in the array
-        int currentColumn = 1;
-        int fBlockIndex = 0;
+        int atomicNumber = 1; // The atomic number for each each element starting at 1
+        String formattedElement; // Formatted string for displaying an element
+        int neededColumn; // Column number for each element that needs to be printed
+        int currentColumn = 1; // For incrementing the current column
+        int fBlockIndex = 0; // For incrementing the index for each f-block element
 
-        for (String[] unformattedElement : TABLE) {
+        // Controls what to print at each position in the main block
+        for (String[] unformattedElement: TABLE) {
 
-            neededColumn = Integer.parseInt(unformattedElement[1]); // the array element at index 1 is a string, so
-                                                                    // convert to integer by parsing
+            neededColumn = Integer.parseInt(unformattedElement[1]); // Converts array element at index 1 from a string to an integer
 
-            if ((neededColumn < currentColumn) & (neededColumn > 0)) { // if current column is over the needed column,
-                                                                       // go to the next line, unless needed column is
-                                                                       // neg
-                System.out.println();
-                currentColumn = 1; // when going to next line reset current colom to 1
+            // Goes to the next line if current column has gone past the needed column
+            if ((neededColumn < currentColumn) & (neededColumn > 0)) { 
+                System.out.println();  
+                currentColumn = 1; // Reset current column to 1 when going to the new line
             }
 
-            while ((neededColumn > currentColumn) & (neededColumn > 0)) { // handling gaps in the periodic table, prints
-                                                                          // dummy elements if a gap is needed
-                System.out.printf("%8s", DUMMY_ELEMENT); // % is escape, 8 characters, looking for string s, put in a
-                                                         // dummy element which is an empty string; printf allows
-                                                         // formatting
-                currentColumn++;
+            // Prints a gap in the table where no element is to be printed
+            while ((neededColumn > currentColumn) & (neededColumn > 0)) { 
+                System.out.printf("%8s", DUMMY_ELEMENT); 
+                currentColumn ++;  // Increment current column by 1
             }
 
-            if (neededColumn <= 0) { // If element is in the fblock, dont print and just store it for later
-                fBlock[fBlockIndex][0] = unformattedElement[0];
+            // If element is in the f-block, doesn't print and just stores it for later in an array
+            if (neededColumn < 0) { 
+                fBlock[fBlockIndex][0] = unformattedElement[0]; 
                 fBlock[fBlockIndex][1] = String.valueOf(atomicNumber);
-                fBlockIndex++;
+                fBlockIndex ++; // Increment index by 1
             }
 
-            else if ((atomicNumber >= bounds[0]) & (atomicNumber <= bounds[1])) { // could use elseif with bounds to
-                                                                                  // print only whats needed
-                formattedElement = atomicNumber + " " + unformattedElement[0] + " "; // formatting for the element
-                                                                                     // inside the cell
-                System.out.printf("%8s", formattedElement); // printing the element; ensuring 8 wide inside each cell
-                currentColumn++;
+            // If element is in the main block, prints it in a cell 8 characters wide
+            else if ((atomicNumber >= bounds[0]) & (atomicNumber <= bounds[1])) { 
+                formattedElement = atomicNumber + " " + unformattedElement[0] + " "; // Cell format for element
+                System.out.printf("%8s", formattedElement); 
+                currentColumn ++; // Increment current column by 1
             }
 
+            // For all other situations, prints a gap 8 characters wide in the table
             else {
-                System.out.printf("%8s", DUMMY_ELEMENT); // % is escape, 8 characters, looking for string s, put in a
-                                                         // dummy element which is an empty string; printf allows
-                                                         // formatting
-                currentColumn++;
+                System.out.printf("%8s", DUMMY_ELEMENT); 
+                currentColumn ++; // Increment current column by 1
             }
 
-            atomicNumber++;
+            atomicNumber ++; // Increment atomic number by 1
         }
         System.out.println();
     }
 
-    public void printGroups() { // display the fblock of the table, needs to be done after display main block
-                                // which feels a bit bad, it is working though
+    // Method for printing the f-block if the user has requested it
+    public void printGroups() { 
 
-        final int STARTING_COLUMNS = 3; // column to start printing from
-        final int ENDING_COLUMNS = 17; // column to stop printing at
-        int currentColumn = 1;
-        String formattedElement = "";
-        int atomicNumber;
+        final int STARTING_COLUMN = 3; // Column to start printing from
+        final int ENDING_COLUMN = 17; // Column to stop printing at
+        int currentColumn = 1; // Current column set at 1 to allow printing of initial gaps  
+        String formattedElement = ""; // Formatted string for printing the element
+        int atomicNumber; // Atomic number for each f-block element
+
+        // Controls printing of f-block if user has selected to print it
         if (fBlockDraw == true) {
 
             System.out.println();
@@ -216,24 +233,26 @@ public class PeriodicTable implements PeriodicTableInterface {
 
                 atomicNumber = Integer.parseInt(unformattedElement[1]);
 
-                if (currentColumn > ENDING_COLUMNS) { // print new line when at end of allowed space
+                // Goes to the next line if current column has gone past the last column
+                if (currentColumn > ENDING_COLUMN) { 
                     System.out.println();
-                    currentColumn = 1;
+                    currentColumn = 1; // Reset current column to 1 when going to the new line
                 }
-
-                while (currentColumn < STARTING_COLUMNS) { // print dummy element when before print area
+                // Prints a gap 8 characters wide before the print area starts
+                while (currentColumn < STARTING_COLUMN) { 
                     System.out.printf("%8s", DUMMY_ELEMENT);
-                    currentColumn++;
+                    currentColumn ++; // Increment current column by 1
                 }
+                // Prints the element if it falls within the range set by the user
                 if ((atomicNumber >= bounds[0]) & (atomicNumber <= bounds[1])) {
-                    formattedElement = unformattedElement[0] + " " + unformattedElement[1] + " ";
-                    System.out.printf("%8s", formattedElement);
-                    currentColumn++;
+                    formattedElement = unformattedElement[0] + " " + unformattedElement[1] + " "; // Formatting the element string
+                    System.out.printf("%8s", formattedElement); // Prints element in a cell 8 characters wide
+                    currentColumn ++; // Increment current column by 1
                 }
-
+                // For all other situations, prints a gap 8 characters wide 
                 else {
                     System.out.printf("%8s", DUMMY_ELEMENT);
-                    currentColumn++;
+                    currentColumn ++; // Increment current column by 1
                 }
             }
 
