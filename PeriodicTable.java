@@ -5,7 +5,7 @@
  *
  * PeriodicTable.java
  * 
- * @author Alexa McKone (----------) & Ellie Bedells (470967)
+ * @author Alexa McKone (702978) & Ellie Bedells (470967)
  * @version 18/7/2024
  * 
  * Purpose:  To print a range of elements belonging to the main group and/or f-block 
