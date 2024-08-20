@@ -33,7 +33,7 @@ public class AssigOne224
         p.printTables();
         p.printGroups();
 
-        //p.unit_test(); // A testing method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables
+        //p.unit_test(); // A testing method that makes every permutation between [0-118, 0-118, 0-1] which is about 14k periodic tables to test with
         
 
 

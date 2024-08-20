@@ -6,7 +6,7 @@
  * PeriodicTable.java
  * 
  * @author Alexa McKone (702978) & Ellie Bedells (470967)
- * @version 18/7/2024
+ * @version 20/7/2024
  * 
  * Purpose:  To print a range of elements belonging to the main group and/or f-block 
  * of the Periodic Table as specified by the user.
@@ -48,21 +48,21 @@ public class PeriodicTable implements PeriodicTableInterface {
     final String DUMMY_ELEMENT = ""; // Empty string for printing in required gaps in the periodic table
     private String[][] fBlock = new String[30][2]; // Array for storing f-block elements from TABLE array
     boolean fBlockDraw = true; // Boolean variable for whether to print the f-block or not
-    int[] bounds = { 0, 118 }; // Array for storing upper and lower bounds of elements to print; has final keywork for testing
+    int[] bounds = { 0, 118 }; // Array for storing upper and lower bounds of elements to print
 
 
-    public void unit_test() { // This parameter generates every possible set of parameters and tests the
-                              // function with them, useful for finding issues
-        final int UPPERBOUNDS = 118; 
-        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS)][3];
-        int index = 0;
+    public void unit_test() { // Unit test for user inputs
+
+        final int UPPERBOUNDS = 118; // Upperbounds of elements to generate to test with
+        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS)][3]; // Array to store superset of user inputable values
+        int index = 0; // Index to track where to place test inputs in combos array
 
         // Generates the superset of possibilities
-        for (int i = 0; i <= UPPERBOUNDS; i++) { 
+        for (int i = 0; i <= UPPERBOUNDS; i++) { // For loop for lower bounds
 
-            for (int j = i + 1; j <= UPPERBOUNDS; j++) {
+            for (int j = i + 1; j <= UPPERBOUNDS; j++) { // For loop for upper bounds
 
-                for (int k = 0; k <= 1; k++) {
+                for (int k = 0; k <= 1; k++) { // For loop for f block draw boolean
 
                     combos[index][0] = i;
                     combos[index][1] = j;
@@ -75,8 +75,7 @@ public class PeriodicTable implements PeriodicTableInterface {
 
         for (int i = 0; i < combos.length; i++) { // Use the superset
 
-            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
-
+            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]); // Print every element of the combos array
             
               bounds[0] = combos[i][0];
               bounds[1] = combos[i][1];
@@ -84,10 +83,11 @@ public class PeriodicTable implements PeriodicTableInterface {
               if (combos[i][2] == 0) {
               fBlockDraw = false;
               }
-              if (combos[i][2] == 1) {
+              else{
               fBlockDraw = true;
               }
-              printTables();
+
+              printTables(); // Test printing tables with every element of combos array
               printGroups();
               
               System.out.println();
@@ -98,19 +98,18 @@ public class PeriodicTable implements PeriodicTableInterface {
 
     public PeriodicTable() {
 
-        Scanner sc = new Scanner(System.in); // Scanner class object for receiving input
+        Scanner scanner = new Scanner(System.in); // Scanner class object for receiving input
         char userFBlockResult; // User's decision for whether to print the f-block or not
-        int userLowerBounds = 0; // First atomic number entered by the user
-        int userUpperBounds = 0; // Second atomic number entered the user
+        int userLowerBounds; // First atomic number entered by the user
+        int userUpperBounds; // Second atomic number entered the user
 
         System.out.println("Periodic Table Printer");
-        System.out.println("");
-
-        // Obtaining from the user whether they want the f-block printed
-        System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
+        System.out.println();
 
         try {
-            userFBlockResult = sc.nextLine().charAt(0);
+            // Obtaining from the user whether they want the f-block printed
+            System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
+            userFBlockResult = scanner.nextLine().charAt(0);
 
             if (userFBlockResult == 'y' || userFBlockResult == 'Y') {
                 fBlockDraw = true;
@@ -130,9 +129,9 @@ public class PeriodicTable implements PeriodicTableInterface {
             System.out.println("...N assumed...");
         }
 
-        System.out.println("Enter number of first element to print: ");
-        try {
-            userLowerBounds = sc.nextInt();
+        try { // Try catch for user input for lower bounds
+            System.out.println("Enter number of first element to print: ");
+            userLowerBounds = scanner.nextInt();
 
             if (userLowerBounds <= 0 || userLowerBounds > 118) {
                 userLowerBounds = 1;
@@ -142,10 +141,10 @@ public class PeriodicTable implements PeriodicTableInterface {
             userLowerBounds = 1;
             System.out.println("...1 assumed...");
         }
-
-        System.out.println("Enter number of last element to print: ");
-        try {
-            userUpperBounds = sc.nextInt();
+        
+        try { // Try catch for user input for upper bounds
+            System.out.println("Enter number of last element to print: ");
+            userUpperBounds = scanner.nextInt();
 
             if (userUpperBounds <= 0 || userUpperBounds > 118 || userUpperBounds < userLowerBounds) {
                 userUpperBounds = 118;
@@ -156,11 +155,8 @@ public class PeriodicTable implements PeriodicTableInterface {
             System.out.println("...118 assumed...");
         }
 
-        if (userLowerBounds > userUpperBounds) {
-            userLowerBounds = 1;
-            userUpperBounds = 118;
-            System.out.println("...1 to 118 assumed...");
-        }
+        scanner.close();
+
         // Assigns the upper and lower bounds entered by the user to the "bounds" array
         bounds[0] = userLowerBounds;
         bounds[1] = userUpperBounds;
@@ -198,14 +194,14 @@ public class PeriodicTable implements PeriodicTableInterface {
                 fBlockIndex ++; 
             }
 
-            // If element is in the main block, prints it in a cell 8 characters wide
+            // If element is in the main block, and within bounds set by user, prints it in a cell 8 characters wide
             else if ((atomicNumber >= bounds[0]) & (atomicNumber <= bounds[1])) { 
                 formattedElement = atomicNumber + " " + unformattedElement[0] + " "; // Cell format for element
                 System.out.printf("%8s", formattedElement); 
                 currentColumn ++; 
             }
 
-            // For all other situations, prints a gap 8 characters wide in the table
+            // If element is outside of bounds set by user, prints a gap 8 characters wide in the table
             else {
                 System.out.printf("%8s", DUMMY_ELEMENT); 
                 currentColumn ++; 
@@ -232,7 +228,7 @@ public class PeriodicTable implements PeriodicTableInterface {
 
             for (String[] unformattedElement : fBlock) {
 
-                atomicNumber = Integer.parseInt(unformattedElement[1]);
+                atomicNumber = Integer.parseInt(unformattedElement[1]); // Attomic number of current element in array
 
                 // Goes to the next line if current column has gone past the last column
                 if (currentColumn > ENDING_COLUMN) { 
@@ -250,7 +246,7 @@ public class PeriodicTable implements PeriodicTableInterface {
                     System.out.printf("%8s", formattedElement); // Prints element in a cell 8 characters wide
                     currentColumn ++; 
                 }
-                // For all other situations, prints a gap 8 characters wide 
+                // If element outside of range set by user, print gap
                 else {
                     System.out.printf("%8s", DUMMY_ELEMENT);
                     currentColumn ++; 
