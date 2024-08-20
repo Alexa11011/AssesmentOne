@@ -70,7 +70,6 @@ public class PeriodicTable implements PeriodicTableInterface {
 
                     index ++;
                 }
-
             }
         }
 
@@ -81,6 +80,7 @@ public class PeriodicTable implements PeriodicTableInterface {
             
               bounds[0] = combos[i][0];
               bounds[1] = combos[i][1];
+
               if (combos[i][2] == 0) {
               fBlockDraw = false;
               }
@@ -124,6 +124,7 @@ public class PeriodicTable implements PeriodicTableInterface {
                 fBlockDraw = false;
                 System.out.println("...N assumed...");
             }
+
         } catch (Exception e) {
             fBlockDraw = false;
             System.out.println("...N assumed...");
