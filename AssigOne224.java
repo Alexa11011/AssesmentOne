@@ -29,10 +29,10 @@ public class AssigOne224
         System.out.println("\t\t\t\t\t\t\t\t Periodic Table");
         System.out.println("\t\t\t\t\t\t\t\t ==============");
         // // show (portion of) periodic table
-        p.printTables();
-        p.printGroups();
+        //p.printTables();
+        //p.printGroups();
 
-        //p.unit_test(); // this is a method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables haha
+        p.unit_test(); // this is a method that makes every permutation between [0-118, 0-118, 0-1] which is about 27k periodic tables haha
         
 
 

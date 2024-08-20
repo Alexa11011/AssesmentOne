@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class PeriodicTable {
+public class PeriodicTable implements PeriodicTableInterface {
 
-    protected final static String[][] TABLE = { { "H", "1" }, { "He", "18" }, { "Li", "1" }, { "Be", "2" },
+    private final static String[][] TABLE = { 
+            { "H", "1" }, { "He", "18" }, { "Li", "1" }, { "Be", "2" },
             { "B", "13" }, { "C", "14" }, { "N", "15" }, { "O", "16" }, { "F", "17" },
             { "Ne", "18" }, { "Na", "1" }, { "Mg", "2" }, { "Al", "13" }, { "Si", "14" }, { "P", "15" }, { "S", "16" },
             { "Cl", "17" }, { "Ar", "18" }, { "K", "1" }, { "Ca", "2" },
@@ -36,12 +37,12 @@ public class PeriodicTable {
     public void unit_test() { // this paramater generates every possible set of paramaters and tests the
                               // funtion with them, useful for finding issues
         final int UPPERBOUNDS = 118;
-        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS + 1) * 2][3];
+        int[][] combos = new int[(UPPERBOUNDS + 1) * (UPPERBOUNDS)][3];
         int index = 0;
 
         for (int i = 0; i <= UPPERBOUNDS; i++) { // Generate the superset
 
-            for (int j = 0; j <= UPPERBOUNDS; j++) {
+            for (int j = i + 1; j <= UPPERBOUNDS; j++) {
 
                 for (int k = 0; k <= 1; k++) {
 
@@ -56,27 +57,28 @@ public class PeriodicTable {
         }
 
         for (int i = 0; i < combos.length; i++) { // use the superset
-            // System.out.println();
-            // System.out.printf("%d %d %d ", combos[i][0], combos[i][1], combos[i][2]);
 
-            // System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1],
-            // combos[i][2]);
-            bounds[0] = combos[i][0];
-            bounds[1] = combos[i][1];
-            if (combos[i][2] == 0) {
-                fBlockDraw = false;
-            }
-            if (combos[i][2] == 1) {
-                fBlockDraw = true;
-            }
-            printTables();
+            System.out.printf("[%d, %d, %d]%n", combos[i][0], combos[i][1], combos[i][2]);
 
-            System.out.println();
+            
+              bounds[0] = combos[i][0];
+              bounds[1] = combos[i][1];
+              if (combos[i][2] == 0) {
+              fBlockDraw = false;
+              }
+              if (combos[i][2] == 1) {
+              fBlockDraw = true;
+              }
+              printTables();
+              printGroups();
+              
+              System.out.println();
+             
         }
-
+        System.out.println(combos.length);
     }
 
-    public PeriodicTable() { 
+    public PeriodicTable() {
 
         Scanner sc = new Scanner(System.in); // new Scanner class object
         char userFBlockResult; // input for whether the user wants to print the f-block
@@ -87,6 +89,7 @@ public class PeriodicTable {
         System.out.println("");
 
         System.out.println("Print the Lanthanum/Actinium groups if necessary [Y/N]: ");
+
         try {
             userFBlockResult = sc.nextLine().charAt(0);
 
@@ -102,36 +105,34 @@ public class PeriodicTable {
                 fBlockDraw = false;
                 System.out.println("...N assumed...");
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
+            fBlockDraw = false;
             System.out.println("...N assumed...");
         }
 
-
         System.out.println("Enter number of first element to print: ");
         try {
-            userLowerBounds = sc.nextInt(); // this needs validation
+            userLowerBounds = sc.nextInt();
 
             if (userLowerBounds <= 0 || userLowerBounds > 118) {
                 userLowerBounds = 1;
                 System.out.println("...1 assumed...");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
+            userLowerBounds = 1;
             System.out.println("...1 assumed...");
         }
-
 
         System.out.println("Enter number of last element to print: ");
         try {
             userUpperBounds = sc.nextInt();
 
-            if (userUpperBounds <= 0 || userUpperBounds > 118) {
+            if (userUpperBounds <= 0 || userUpperBounds > 118 || userUpperBounds < userLowerBounds) {
                 userUpperBounds = 118;
                 System.out.println("...118 assumed...");
-                }
-        }
-        catch (Exception e){
+            }
+        } catch (Exception e) {
+            userUpperBounds = 118;
             System.out.println("...118 assumed...");
         }
 
@@ -144,8 +145,6 @@ public class PeriodicTable {
         bounds[0] = userLowerBounds;
         bounds[1] = userUpperBounds;
     }
-    
-    
 
     public void printTables() {
 
@@ -212,8 +211,6 @@ public class PeriodicTable {
         if (fBlockDraw == true) {
 
             System.out.println();
-
-            // make condition in this method weather to print or not
 
             for (String[] unformattedElement : fBlock) {
 
