@@ -200,7 +200,8 @@ public class PeriodicTable implements PeriodicTableInterface
         int fBlockIndex = 0; // For incrementing the index for each f-block element
 
         // Controls what to print at each position in the main block
-        for (String[] unformattedElement: TABLE) {
+        for (String[] unformattedElement: TABLE) 
+        {
 
             neededColumn = Integer.parseInt(unformattedElement[1]); // Converts array element at index 1 from a string to an integer
 
